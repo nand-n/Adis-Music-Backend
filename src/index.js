@@ -1,30 +1,13 @@
 const mongoose = require('mongoose');
 const app = require('./app');
-// const rabbitConsumer=require('./utils/consumer')
-
-// const AppDataSource = require('./utils/createDatabaseConnection')
-const config = require('./config/config');
 const logger = require('./config/logger');
 
 let server;
 
-// rabbitConsumer(['user.*']).catch((error) => {
-//   console.error('Error consuming messages:', error);
-// });
-
-// AppDataSource.initialize().then(() => {
-//   logger.info('Connected to Postgres through Typeorm');
-//   server = app.listen(config.port, () => {
-//     logger.info(`Listening to port http://localhost:${config.port}`);
-//   });
-// }).catch((e) => {
-//   logger.error(`Exception Error ${e}`)
-// })
-
 mongoose.connection.once('open', () => {
   logger.info('Connected to MongoDB through Mongoose');
- server = app.listen(3000, () => {
-    logger.info(`Listening to port http://localhost:${3000}`);
+ server = app.listen(process.env.PORT, () => {
+    logger.info(`Listening to port http://localhost:${process.env.PORT}`);
   });
 });
 
@@ -33,7 +16,7 @@ mongoose.connection.on('error', (error) => {
 });
 
 // Initialize the Mongoose connection
-mongoose.connect("mongodb://root:root@mongodb:27017/admin", {
+mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

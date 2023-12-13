@@ -14,6 +14,21 @@ const getSongs = catchAsync(async (req, res) => {
     const result = await SongService.querySongs();
     res.send(result);
 });
+//List Songs Bt album
+const getSongByAlbum=catchAsync(async (req,res)=>{
+    const result = await SongService.querySongsByAlbum()
+    res.send(result)
+})
+//List Songs Bt album
+const getSongByArtist=catchAsync(async (req,res)=>{
+    const result = await SongService.querySongsByArtist()
+    res.send(result)
+})
+//List Songs Bt album
+const getSongByGenre=catchAsync(async (req,res)=>{
+    const result = await SongService.querySongsByGenre()
+    res.send(result)
+})
 //Fetch Single Song
 const getSong = catchAsync(async (req, res) => {
     const result = await SongService.getSongById(req.params.id);
@@ -52,5 +67,8 @@ module.exports = {
     getSong,
     updateSongById,
     deleteSongById,
-    getStatistics
+    getStatistics,
+    getSongByAlbum,
+    getSongByArtist,
+getSongByGenre
 };

@@ -8,54 +8,16 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
-    PG_USER_NAME: Joi.string().required().description('Postgress Username is required!'),
-    PG_PASSWORD: Joi.string().required().description('Postgress Password is required!'),
-    PG_HOST: Joi.string().required().description('Postgress Host name is required!'),
-    PG_PORT: Joi.number().required().description('Postgress Port is required!'),
-    PG_DATABASE: Joi.string().required().description('Postgress Database name is required!'),
-    PG_MAX_CONN_POOL: Joi.number().required().description('Postgress Maximum connection pool number is required!'),
-    PG_IDLE_TIMEOUT: Joi.number().required().description('Postgress Idle timeout is required!'),
-    PG_CONN_TIMEOUT: Joi.number().required().description('Postgress Connection timeout is required!'),
-
-    JWT_SECRET: Joi.string().required().description('JWT secret key'),
   })
   .unknown();
 
 const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
-// if (error) {
-//   throw new Error(`Config validation error: ${error.message}`);
-// }
+if (error) {
+  throw new Error(`Config validation error: ${error.message}`);
+}
 
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
-  postgres: {
-    userName: process.env.PG_USER_NAME,
-    pswd: process.env.PG_PASSWORD,
-    host: process.env.PG_HOST,
-    port: process.env.PG_PORT,
-    database: process.env.PG_DATABASE,
-    idleTimeOut: process.env.PG_IDLE_TIMEOUT,
-    connTimeOut: process.env.PG_CONN_TIMEOUT,
-    maxConn: process.env.PG_MAX_CONN,
-  },
-  jwt: {
-    secret: envVars.JWT_SECRET,
-    accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
-    refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
-    resetPasswordExpirationMinutes: envVars.JWT_RESET_PASSWORD_EXPIRATION_MINUTES,
-    verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
-  },
-  email: {
-    smtp: {
-      host: envVars.SMTP_HOST,
-      port: envVars.SMTP_PORT,
-      auth: {
-        user: envVars.SMTP_USERNAME,
-        pass: envVars.SMTP_PASSWORD,
-      },
-    },
-    from: envVars.EMAIL_FROM,
-  },
 };

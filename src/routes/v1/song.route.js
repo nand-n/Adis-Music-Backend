@@ -13,13 +13,22 @@ router
 router
     .route('/stat')
     .get( SongController.getStatistics)
+router
+    .route('/songbyalbum')
+    .get(SongController.getSongByAlbum)
+
+router
+    .route('/songbygenre')
+    .get(SongController.getSongByGenre)
+router
+    .route('/songbyartist')
+    .get(SongController.getSongByArtist)
 
 router
     .route('/:id')
     .get( SongController.getSong)
     .patch( SongController.updateSongById)
     .delete( SongController.deleteSongById);
-
 
 module.exports = router;
 
